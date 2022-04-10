@@ -1,4 +1,4 @@
-package com.bobo.community.controller.intercepter;
+package com.bobo.community.controller.interceptor;
 
 import com.bobo.community.entity.User;
 import com.bobo.community.service.MessageService;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-public class MessageIntercepter implements HandlerInterceptor {
+public class MessageInterceptor implements HandlerInterceptor {
     @Autowired
     private HostHolder hostHolder;
     @Autowired

@@ -24,7 +24,7 @@ public class DiscussPostServiceTest {
     private DiscussPostService discussPostService;
     @Test
     public void testDiscussPostMappper(){
-        List<DiscussPost>  posts = discussPostMapper.selectDiscussPosts(0, 0,10);
+        List<DiscussPost>  posts = discussPostMapper.selectDiscussPosts(0, 0,10, 0);
         for(DiscussPost post : posts){
            System.out.println(post);
         }
@@ -35,7 +35,7 @@ public class DiscussPostServiceTest {
     }
     @Test
     public void testDiscussPostService(){
-        List<DiscussPost>  posts = discussPostService.findDiscussPosts(0, 0,10);
+        List<DiscussPost>  posts = discussPostService.findDiscussPosts(0, 0,10, 1);
         for(DiscussPost post : posts){
             System.out.println(post);
         }

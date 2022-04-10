@@ -108,6 +108,22 @@ public class RedisTest {
     public  void testLock(){
         Lock lock = new ReentrantLock();
     }
+    @Test
+    public void  testHyperLogLog(){
+        String key = "test:hll:01";
+        for(int i=0; i<1000;i++){
+            redisTemplate.opsForHyperLogLog().add(key, i);
+        }
+        System.out.println(redisTemplate.opsForHyperLogLog().size(key));
+    }
+    @Test
+    public void  testBitMap(){
+        String key = "test:bm:01";
+        redisTemplate.opsForValue().setBit(key, 1, true);
+        redisTemplate.opsForValue().setBit(key, 3, true);
+        redisTemplate.opsForValue().setBit(key, 4, true);
+        redisTemplate.opsForValue().setBit(key, 2, true);
 
+    }
 
 }

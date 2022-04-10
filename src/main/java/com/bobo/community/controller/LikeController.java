@@ -7,7 +7,9 @@ import com.bobo.community.service.LikeService;
 import com.bobo.community.utils.CommunityConstant;
 import com.bobo.community.utils.CommunityUtil;
 import com.bobo.community.utils.HostHolder;
+import com.bobo.community.utils.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +24,8 @@ public class LikeController implements CommunityConstant {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
     @Autowired
     private HostHolder hostHolder;
     @Autowired
@@ -54,6 +58,10 @@ public class LikeController implements CommunityConstant {
                     .setEntityUserId(entityUserId)
                     .setData("postId", postId);
             eventProducer.fireEvent(event);
+        }
+        if(entityType == ENTITY_TYPE_POST){
+            String key = RedisKeyUtil.getPostScoreKey();
+            redisTemplate.opsForSet().add(key, entityId);
         }
         return CommunityUtil.getJSONString(0, null, map);
     }

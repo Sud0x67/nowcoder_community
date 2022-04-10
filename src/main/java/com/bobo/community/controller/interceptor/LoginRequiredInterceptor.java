@@ -1,4 +1,4 @@
-package com.bobo.community.controller.intercepter;
+package com.bobo.community.controller.interceptor;
 
 import com.bobo.community.annotation.LoginRequired;
 import com.bobo.community.utils.HostHolder;
@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 @Component
-public class LoginRequiredIntercepter implements HandlerInterceptor {
+@Deprecated
+public class LoginRequiredInterceptor implements HandlerInterceptor {
     @Autowired
     HostHolder hostHolder;
     @Override

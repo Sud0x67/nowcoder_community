@@ -8,9 +8,12 @@ import com.bobo.community.event.EventProducer;
 import com.bobo.community.service.CommentService;
 import com.bobo.community.service.DiscussPostService;
 import com.bobo.community.utils.CommunityConstant;
+import com.bobo.community.utils.CommunityUtil;
 import com.bobo.community.utils.HostHolder;
+import com.bobo.community.utils.RedisKeyUtil;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +33,8 @@ public class CommentController implements CommunityConstant {
     private EventProducer eventProducer;
     @Autowired
     private HostHolder hostHolder;
+    @Autowired
+    private RedisTemplate redisTemplate;
     @RequestMapping(path = "/add/{discussPostId}", method = RequestMethod.POST)
     public String addComment(@PathVariable("discussPostId") int discussPostId, Comment comment){
         comment.setUserId(hostHolder.getUser().getId());
@@ -62,9 +67,13 @@ public class CommentController implements CommunityConstant {
                     .setEntityId(ENTITY_TYPE_POST)
                     .setEntityId(discussPostId);
             eventProducer.fireEvent(event);
+            String key = RedisKeyUtil.getPostScoreKey();
+            redisTemplate.opsForSet().add(key, discussPostId);
         }
 
         System.out.println(discussPostId);
         return "redirect:/discuss/detail/" + discussPostId;
     }
+
+
 }
